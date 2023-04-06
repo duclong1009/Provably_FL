@@ -1,0 +1,1 @@
+python main.py --task --model cnn --algorithm fedprob --num_rounds 20 --num_epochs 5 --learning_rate 0.01 --proportion 0.1 --batch_size 10 --eval_interval 1 

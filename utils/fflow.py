@@ -20,6 +20,13 @@ def read_option():
     parser.add_argument('--algorithm', help='name of algorithm;', type=str, default='fedavg')
     parser.add_argument('--model', help='name of model;', type=str, default='cnn')
 
+    #hyper-parameters of certified robustness 
+    parser.add_argument('--n0', help='the number of Monte Carlo samples to use for selection',type=int, default=100)
+    parser.add_argument('--n',help="the number of Monte Carlo samples to use for estimation",type=int, default=1000)
+    parser.add_argument('--alpha_certify',help='the failure probability', default=0.05)
+    parser.add_argument('--sigma_certify', help='only used for fedprob, the level of noise',type=float, default=0.5)
+    parser.add_argument('--num_classes', type=int, default=100)
+
     # methods of server side for sampling and aggregating
     parser.add_argument('--sample', help='methods for sampling clients', type=str, choices=sample_list, default='uniform')
     parser.add_argument('--aggregate', help='methods for aggregating models', type=str, choices=agg_list, default='none')
@@ -45,6 +52,11 @@ def read_option():
     parser.add_argument('--gpu', default=0, type=int)
     # the simulating system settings of clients
     
+    #config wandb 
+    parser.add_argument('--session_name',type=str, default="")
+    parser.add_argument('--group_name',type=str, default='None')
+    parser.add_argument('--log_wandb',action="store_true",default=False)
+
     # constructing the heterogeity of the network
     parser.add_argument('--net_drop', help="controlling the dropout of clients after being selected in each communication round according to distribution Beta(drop,1)", type=float, default=0)
     parser.add_argument('--net_active', help="controlling the probability of clients being active and obey distribution Beta(active,1)", type=float, default=99999)
@@ -79,10 +91,12 @@ def setup_seed(seed):
 def initialize(option):
     # init fedtask
     print("init fedtask...", end='')
+    
     # dynamical initializing the configuration with the benchmark
     bmk_name = option['task'][:option['task'].find('cnum')-1].lower()
     bmk_model_path = '.'.join(['benchmark', bmk_name, 'model', option['model']])
     bmk_core_path = '.'.join(['benchmark', bmk_name, 'core'])
+    
     utils.fmodule.device = torch.device('cuda:{}'.format(option['server_gpu_id']) if torch.cuda.is_available() and option['server_gpu_id'] != -1 else 'cpu')
     utils.fmodule.TaskCalculator = getattr(importlib.import_module(bmk_core_path), 'TaskCalculator')
     utils.fmodule.TaskCalculator.setOP(getattr(importlib.import_module('torch.optim'), option['optimizer']))

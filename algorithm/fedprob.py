@@ -13,14 +13,13 @@ from main import logger
 import utils.fflow as flw
 
 class Client(BasicClient):
-    # TODO: change hard fix options
     def __init__(self, option, name='', train_data=None, valid_data=None):
         super().__init__(option, name, train_data, valid_data)
-        self.sigma = 0.5
-        self.N0 = 100
-        self.N = 1000
-        self.alpha = 0.05
-        self.num_classes = 23
+        self.sigma = option['sigma_certify']
+        self.N0 = option['n0']
+        self.N = option['n']
+        self.alpha = option['alpha_certify']
+        self.num_classes = option['num_classes']
 
     def train(self, model: nn.Module):
         """
@@ -86,16 +85,16 @@ class Client(BasicClient):
 
 
 class Server(BasicServer):
-    # TODO: change hard fix options
-    def __init__(self, option, model: nn.Module, clients: list[Client], test_data=None):
+    def __init__(self, option, model: nn.Module, clients: list, test_data=None):
         super().__init__(option, model, clients, test_data)
-        self.num_classes = 23
-        self.sigma = 0.5
-        self.N0 = 100
-        self.N = 1000
-        self.alpha = 0.05
+        self.sigma = option['sigma_certify']
+        self.N0 = option['n0']
+        self.N = option['n']
+        self.alpha = option['alpha_certify']
+
+        self.num_classes = option['num_classes']
         self.radii = np.arange(0, 1.6, 0.1)
-        self.batch_size = 64
+        self.batch_size = len(self.test_data) if option['batch_size']==-1 else option['batch_size']
 
     def run(self):
         """
@@ -120,6 +119,7 @@ class Server(BasicServer):
         self.log_certify()
         logger.time_end('Total Time Cost')
         # save results as .json file
+        breakpoint()
         logger.save(os.path.join('fedtask', self.option['task'], 'record', flw.output_filename(self.option, self)))
 
     def log_certify(self):
@@ -131,7 +131,6 @@ class Server(BasicServer):
             client_certify_acc = self.clients[idx].certify_test_radius(self.model, self.radii)
             logger.output["client_certify_acc"][idx] = client_certify_acc.tolist()
 
-    # TODO: change hard fix options
     def certify(self):
         data_loader = self.calculator.get_data_loader(self.test_data, batch_size=self.batch_size)
         certify_model = Smooth(self.model, self.num_classes, self.sigma, self.N0, self.N, self.alpha, device=self.calculator.device)
@@ -155,7 +154,7 @@ class Server(BasicServer):
                     certify_results.append(certify_result)
                     idx += 1 
         df = pd.DataFrame(certify_results)
-
+        
         # cal accuracy (certify accuracy)
         accuracy_calculator = ApproximateAccuracy(df)
         return accuracy_calculator.at_radii(self.radii)

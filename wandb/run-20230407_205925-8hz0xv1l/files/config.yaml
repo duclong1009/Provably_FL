@@ -1,0 +1,153 @@
+wandb_version: 1
+
+task:
+  desc: null
+  value: cifar100_cnum100_dist1_skew0.8_seed0
+algorithm:
+  desc: null
+  value: fedprob
+model:
+  desc: null
+  value: cnn
+n0:
+  desc: null
+  value: 100
+n:
+  desc: null
+  value: 1000
+alpha_certify:
+  desc: null
+  value: 0.05
+sigma_certify:
+  desc: null
+  value: 0.5
+num_classes:
+  desc: null
+  value: 100
+sample:
+  desc: null
+  value: uniform
+aggregate:
+  desc: null
+  value: none
+learning_rate_decay:
+  desc: null
+  value: 0.998
+weight_decay:
+  desc: null
+  value: 0
+lr_scheduler:
+  desc: null
+  value: -1
+num_rounds:
+  desc: null
+  value: 100
+proportion:
+  desc: null
+  value: 0.1
+num_epochs:
+  desc: null
+  value: 5
+learning_rate:
+  desc: null
+  value: 0.01
+batch_size:
+  desc: null
+  value: 10
+optimizer:
+  desc: null
+  value: SGD
+momentum:
+  desc: null
+  value: 0
+seed:
+  desc: null
+  value: 0
+eval_interval:
+  desc: null
+  value: 1
+num_threads:
+  desc: null
+  value: 1
+num_threads_per_gpu:
+  desc: null
+  value: 1
+num_gpus:
+  desc: null
+  value: 3
+gpu:
+  desc: null
+  value: 0
+session_name:
+  desc: null
+  value: cifar100_cnum100_dist1_skew0.8_seed0_fedprob
+group_name:
+  desc: null
+  value: None
+log_wandb:
+  desc: null
+  value: true
+net_drop:
+  desc: null
+  value: 0
+net_active:
+  desc: null
+  value: 99999
+capability:
+  desc: null
+  value: 0
+learning_rate_lambda:
+  desc: null
+  value: 0
+q:
+  desc: null
+  value: 0.0
+epsilon:
+  desc: null
+  value: 0.0
+eta:
+  desc: null
+  value: 1.0
+tau:
+  desc: null
+  value: 0
+alpha:
+  desc: null
+  value: 0.0
+beta:
+  desc: null
+  value: 1.0
+gamma:
+  desc: null
+  value: 0.0
+mu:
+  desc: null
+  value: 0.1
+server_gpu_id:
+  desc: null
+  value: 0
+_wandb:
+  desc: null
+  value:
+    python_version: 3.8.16
+    cli_version: 0.14.1
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1680868765.732931
+    t:
+      1:
+      - 1
+      - 55
+      2:
+      - 1
+      - 41
+      - 55
+      3:
+      - 13
+      - 16
+      - 23
+      4: 3.8.16
+      5: 0.14.1
+      8:
+      - 5

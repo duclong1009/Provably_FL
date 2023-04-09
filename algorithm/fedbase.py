@@ -178,7 +178,7 @@ class BasicClient():
         self.learning_rate = lr if lr else self.learning_rate
 
 class BasicServer():
-    def __init__(self, option, model: nn.Module, clients: list[BasicClient], test_data = None):
+    def __init__(self, option, model: nn.Module, clients: list, test_data = None):
         # basic setting
         self.task = option['task']
         self.name = option['algorithm']
@@ -248,7 +248,7 @@ class BasicServer():
         self.model = self.aggregate(models, p = [1.0 * self.client_vols[cid]/self.data_vol for cid in self.selected_clients])
         return
 
-    def communicate(self, selected_clients: list[int]):
+    def communicate(self, selected_clients: list):
         """
         The whole simulating communication procedure with the selected clients.
         This part supports for simulating the client dropping out.
@@ -301,7 +301,7 @@ class BasicServer():
             "model" : copy.deepcopy(self.model),
         }
 
-    def unpack(self, packages_received_from_clients: list[ClientPackage]):
+    def unpack(self, packages_received_from_clients: list):
         """
         Unpack the information from the received packages. Return models and losses as default.
         :param
@@ -360,7 +360,7 @@ class BasicServer():
         selected_clients = list(set(active_clients).intersection(selected_clients))
         return selected_clients
 
-    def aggregate(self, models: list[nn.Module], p=[]):
+    def aggregate(self, models: list, p=[]):
         """
         Aggregate the locally improved models.
         :param

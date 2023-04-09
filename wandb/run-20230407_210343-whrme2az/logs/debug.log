@@ -1,0 +1,26 @@
+2023-04-07 21:03:43,945 INFO    MainThread:83079 [wandb_setup.py:_flush():76] Configure stats pid to 83079
+2023-04-07 21:03:43,945 INFO    MainThread:83079 [wandb_setup.py:_flush():76] Loading settings from /home/oem/.config/wandb/settings
+2023-04-07 21:03:43,945 INFO    MainThread:83079 [wandb_setup.py:_flush():76] Loading settings from /home/oem/Projects/provably_fl/wandb/settings
+2023-04-07 21:03:43,945 INFO    MainThread:83079 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2023-04-07 21:03:43,945 INFO    MainThread:83079 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2023-04-07 21:03:43,945 INFO    MainThread:83079 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'main.py', 'program': 'main.py'}
+2023-04-07 21:03:43,945 INFO    MainThread:83079 [wandb_init.py:_log_setup():507] Logging user logs to /home/oem/Projects/provably_fl/wandb/run-20230407_210343-whrme2az/logs/debug.log
+2023-04-07 21:03:43,945 INFO    MainThread:83079 [wandb_init.py:_log_setup():508] Logging internal logs to /home/oem/Projects/provably_fl/wandb/run-20230407_210343-whrme2az/logs/debug-internal.log
+2023-04-07 21:03:43,945 INFO    MainThread:83079 [wandb_init.py:init():547] calling init triggers
+2023-04-07 21:03:43,945 INFO    MainThread:83079 [wandb_init.py:init():554] wandb.init called with sweep_config: {}
+config: {'task': 'cifar100_cnum100_dist1_skew0.8_seed0', 'algorithm': 'fedprob', 'model': 'cnn', 'n0': 100, 'n': 1000, 'alpha_certify': 0.05, 'sigma_certify': 0.5, 'num_classes': 100, 'sample': 'uniform', 'aggregate': 'none', 'learning_rate_decay': 0.998, 'weight_decay': 0, 'lr_scheduler': -1, 'num_rounds': 500, 'proportion': 0.1, 'num_epochs': 5, 'learning_rate': 0.01, 'batch_size': 10, 'optimizer': 'SGD', 'momentum': 0, 'seed': 0, 'eval_interval': 1, 'num_threads': 1, 'num_threads_per_gpu': 1, 'num_gpus': 3, 'gpu': 0, 'session_name': 'cifar100_cnum100_dist1_skew0.8_seed0_fedprob', 'group_name': 'None', 'log_wandb': True, 'net_drop': 0, 'net_active': 99999, 'capability': 0, 'learning_rate_lambda': 0, 'q': 0.0, 'epsilon': 0.0, 'eta': 1.0, 'tau': 0, 'alpha': 0.0, 'beta': 1.0, 'gamma': 0.0, 'mu': 0.1, 'server_gpu_id': 0}
+2023-04-07 21:03:43,945 INFO    MainThread:83079 [wandb_init.py:init():595] starting backend
+2023-04-07 21:03:43,945 INFO    MainThread:83079 [wandb_init.py:init():599] setting up manager
+2023-04-07 21:03:43,949 INFO    MainThread:83079 [backend.py:_multiprocessing_setup():106] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2023-04-07 21:03:43,952 INFO    MainThread:83079 [wandb_init.py:init():605] backend started and connected
+2023-04-07 21:03:43,955 INFO    MainThread:83079 [wandb_init.py:init():695] updated telemetry
+2023-04-07 21:03:43,967 INFO    MainThread:83079 [wandb_init.py:init():732] communicating run to backend with 60.0 second timeout
+2023-04-07 21:03:44,359 INFO    MainThread:83079 [wandb_run.py:_on_init():2176] communicating current version
+2023-04-07 21:03:44,390 INFO    MainThread:83079 [wandb_run.py:_on_init():2185] got version response 
+2023-04-07 21:03:44,391 INFO    MainThread:83079 [wandb_init.py:init():782] starting run threads in backend
+2023-04-07 21:03:46,432 INFO    MainThread:83079 [wandb_run.py:_console_start():2157] atexit reg
+2023-04-07 21:03:46,432 INFO    MainThread:83079 [wandb_run.py:_redirect():2012] redirect: SettingsConsole.WRAP_RAW
+2023-04-07 21:03:46,433 INFO    MainThread:83079 [wandb_run.py:_redirect():2077] Wrapping output streams.
+2023-04-07 21:03:46,433 INFO    MainThread:83079 [wandb_run.py:_redirect():2102] Redirects installed.
+2023-04-07 21:03:46,433 INFO    MainThread:83079 [wandb_init.py:init():824] run started, returning control to user process
+2023-04-07 21:43:15,551 WARNING MsgRouterThr:83079 [router.py:message_loop():77] message_loop has been closed

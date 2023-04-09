@@ -42,9 +42,19 @@ class MyLogger(flw.Logger):
         print(self.temp.format("Mean of Client Accuracy:", self.output['mean_curve'][-1]))
         print(self.temp.format("Std of Client Accuracy:", self.output['var_curve'][-1]))
 
+        if server.option['log_wandb']:
+            wandb.log({
+                "loss/training_loss": self.output['train_losses'][-1],
+                "loss/testing_loss": self.output['test_losses'][-1],
+                "acc/testing_accuracy": self.output['test_accs'][-1],
+                "acc/validating_accuracy":self.output['mean_valid_accs'][-1],
+                "acc/mean_cureve":self.output['mean_curve'][-1],
+                "acc/var_curve": self.output['var_curve'][-1],
+            })
+
 
 logger = MyLogger()
-
+import wandb
 def main():
     multiprocessing.set_start_method('spawn')
     # read options
@@ -54,6 +64,19 @@ def main():
     os.environ['WORLD_SIZE'] = str(3)
     # set random seed
     flw.setup_seed(option['seed'])
+    ss_name = f"{option['task']}_{option['algorithm']}_{option['session_name']}"
+    # ss_name = f"{option["task"]}_{option['algorithm']}"
+    option["session_name"] = ss_name
+    # set random seed
+    if option["log_wandb"]:
+        wandb.init(
+            project="Provably_Fl",
+            entity="aiotlab",
+            group= option["group_name"],
+            name=f"{ss_name}",
+            config=option,
+        )
+
     # initialize server
     server = flw.initialize(option)
     # start federated optimization

@@ -1,1 +1,0 @@
-{"loss/training_loss": 1.060960114017704, "loss/testing_loss": 6.250382141113281, "acc/testing_accuracy": 0.2479, "acc/validating_accuracy": 0.25342334707650904, "acc/mean_cureve": 0.25356914287103843, "acc/var_curve": 0.049652267707242216, "_timestamp": 1680871386.6442413, "_runtime": 2362.6918363571167, "_step": 500, "_wandb": {"runtime": 2364}}

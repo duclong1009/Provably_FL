@@ -100,6 +100,7 @@ class Server(BasicServer):
         """
         Start the federated learning symtem where the global model is trained iteratively.
         """
+        
         logger.time_start('Total Time Cost')
         for round in range(self.num_rounds+1):
             print("--------------Round {}--------------".format(round))
@@ -114,9 +115,19 @@ class Server(BasicServer):
             logger.time_end('Time Cost')
             if logger.check_if_log(round, self.eval_interval):
                 logger.log(self)
+                if "certified_information" not in logger.output.keys():
+                    logger.output['certified_information'] = {}
+                output = self.log_certify()
+                logger.output['certified_information'][f"round_{round}"] = output
+
+            if round % self.option['log_interval'] == 0:
+                if not os.path.exists(f"fedtask/{self.option['task']}/record/{self.option['session_name']}"):
+                    os.makedirs(f"fedtask/{self.option['task']}/record/{self.option['session_name']}")
+                logger.save(os.path.join('fedtask', self.option['task'], 'record', flw.output_filename(self.option, self)))
+                torch.save(self.model.state_dict(), f"fedtask/{self.option['task']}/record/{self.option['session_name']}/model_{round}.pth")
 
         print("=================End==================")
-        self.log_certify()
+        
         logger.time_end('Total Time Cost')
         # save results as .json file
         breakpoint()
@@ -124,12 +135,14 @@ class Server(BasicServer):
 
     def log_certify(self):
         server_certify_acc = self.certify().tolist()
-        logger.output["server_certify_acc"] = server_certify_acc
-        logger.output["client_certify_acc"] = {}
+        output = {}
+        output["server_certify_acc"] = server_certify_acc
+        output["client_certify_acc"] = {}
 
         for idx in range(self.num_clients):
             client_certify_acc = self.clients[idx].certify_test_radius(self.model, self.radii)
-            logger.output["client_certify_acc"][idx] = client_certify_acc.tolist()
+            output["client_certify_acc"][idx] = client_certify_acc.tolist()
+        return output
 
     def certify(self):
         data_loader = self.calculator.get_data_loader(self.test_data, batch_size=self.batch_size)

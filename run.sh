@@ -1,1 +1,1 @@
-python main.py --task "cifar100_cnum100_dist1_skew0.8_seed0" --model cnn --algorithm fedprob --num_rounds 500 --num_epochs 5 --learning_rate 0.01 --proportion 0.1 --batch_size 10 --eval_interval 1 --log_wandb --
+python main.py --task "cifar100_cnum100_dist1_skew0.8_seed0" --model resnet18 --algorithm fedprob --num_rounds 500 --num_epochs 5 --learning_rate 0.01 --proportion 0.1 --batch_size 10 --eval_interval 1  

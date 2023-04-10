@@ -46,6 +46,8 @@ def read_option():
     # machine environment settings
     parser.add_argument('--seed', help='seed for random initialization;', type=int, default=0)
     parser.add_argument('--eval_interval', help='evaluate every __ rounds;', type=int, default=1)
+    parser.add_argument('--log_interval', help='save file every __ rounds;', type=int, default=10)
+
     parser.add_argument('--num_threads', help='the number of threads;', type=int, default=1)
     parser.add_argument('--num_threads_per_gpu', help="the number of threads per gpu in the clients computing session;", type=int, default=1)
     parser.add_argument('--num_gpus', default=3, type=int)
@@ -121,21 +123,25 @@ def initialize(option):
     return server
 
 def output_filename(option, server):
-    header = "{}_".format(option["algorithm"])
-    for para in server.paras_name: header = header + para + "{}_".format(option[para])
-    output_name = header + "M{}_R{}_B{}_E{}_LR{:.4f}_P{:.2f}_S{}_LD{:.3f}_WD{:.3f}_DR{:.2f}_AC{:.2f}.json".format(
-        option['model'],
-        option['num_rounds'],
-        option['batch_size'],
-        option['num_epochs'],
-        option['learning_rate'],
-        option['proportion'],
-        option['seed'],
-        option['lr_scheduler']+option['learning_rate_decay'],
-        option['weight_decay'],
-        option['net_drop'],
-        option['net_active'])
+    output_name = f"{option['session_name']}.json"
     return output_name
+
+# def output_filename(option, server):
+#     header = "{}_".format(option["algorithm"])
+#     for para in server.paras_name: header = header + para + "{}_".format(option[para])
+#     output_name = header + "M{}_R{}_B{}_E{}_LR{:.4f}_P{:.2f}_S{}_LD{:.3f}_WD{:.3f}_DR{:.2f}_AC{:.2f}.json".format(
+#         option['model'],
+#         option['num_rounds'],
+#         option['batch_size'],
+#         option['num_epochs'],
+#         option['learning_rate'],
+#         option['proportion'],
+#         option['seed'],
+#         option['lr_scheduler']+option['learning_rate_decay'],
+#         option['weight_decay'],
+#         option['net_drop'],
+#         option['net_active'])
+#     return output_name
 
 class Logger:
     def __init__(self):

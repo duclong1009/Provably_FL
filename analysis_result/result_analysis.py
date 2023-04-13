@@ -108,7 +108,7 @@ def scan_records(task, header = '', filter = {}):
 #         'Lowest Valid-Acc.',
 #         'Mean-Valid-Acc.',
 #         'Var-Valid-Acc.',
-#     ]
+#     ]python main.py --task "cifar10_cnum100_dist1_skew0.5_seed0" --model resnet18 --algorithm fedprob --num_rounds 500 --num_epochs 5 --learning_rate 0.01 --proportion 0.1 --batch_size 10 --eval_interval 1  
 #     for rec,d in zip(records, dicts):
 #         testacc  = d['test_accs'][-1]
 #         validacc = d['mean_curve'][-1]

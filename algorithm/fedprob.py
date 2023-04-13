@@ -127,7 +127,7 @@ class Server(BasicServer):
                 torch.save(self.model.state_dict(), f"fedtask/{self.option['task']}/record/{self.option['session_name']}/model_{round}.pth")
 
         print("=================End==================")
-        
+
         logger.time_end('Total Time Cost')
         # save results as .json file
         breakpoint()

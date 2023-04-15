@@ -46,7 +46,7 @@ def read_option():
     # machine environment settings
     parser.add_argument('--seed', help='seed for random initialization;', type=int, default=0)
     parser.add_argument('--eval_interval', help='evaluate every __ rounds;', type=int, default=1)
-    parser.add_argument('--log_interval', help='save file every __ rounds;', type=int, default=10)
+    parser.add_argument('--log_interval', help='save file every __ rounds;', type=int, default=40)
 
     parser.add_argument('--num_threads', help='the number of threads;', type=int, default=1)
     parser.add_argument('--num_threads_per_gpu', help="the number of threads per gpu in the clients computing session;", type=int, default=1)

@@ -3,19 +3,22 @@ import importlib
 from benchmark.toolkits import ClassifyCalculator, DefaultTaskGen, XYTaskReader
 from torchvision import datasets,transforms
 import json
+import os
 
 def read_option():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', help='name of dataset;', type=str, default='mnist')
+    parser.add_argument('--num_clients', help='the number of clients;', type=int, default=100)
     parser.add_argument('--dist', help='type of distribution;', type=int, default=0)
     parser.add_argument('--skew', help='the degree of niid;', type=float, default=0.5)
-    parser.add_argument('--num_clients', help='the number of clients;', type=int, default=100)
+    parser.add_argument("--idx_path", type=str)
+    parser.add_argument("--task_name",type=str)
     try: option = vars(parser.parse_args())
     except IOError as msg: parser.error(str(msg))
     return option
 
 class TaskGen(DefaultTaskGen):
-    def __init__(self, dist_id, num_clients = 1, skewness = 0.5):
+    def __init__(self, dist_id, num_clients = 1, skewness = 0.5, option =dict()):
         super(TaskGen, self).__init__(benchmark='cifar10',
                                       dist_id=dist_id,
                                       num_clients=num_clients,
@@ -24,13 +27,15 @@ class TaskGen(DefaultTaskGen):
                                       )
         self.num_classes = 10
         self.save_data = self.XYData_to_json
-
+        self.data_path = option['idx_path']
+    
     def run(self):
         """ Generate federated task"""
         # check if the task exists
         if not self._check_task_exist():
             self.create_task_directories()
         else:
+            
             print("Task Already Exists.")
             return
         # read raw_data into self.train_data and self.test_data
@@ -41,7 +46,7 @@ class TaskGen(DefaultTaskGen):
         # partition data and hold-out for each local dataset
         print('-----------------------------------------------------')
         print('Partitioning data...')
-        with open("/home/oem/Projects/provably_fl/dataset_idx/cifar/100client/pareto/CIFAR-noniid-pareto_100_1.json", "r") as f:
+        with open(self.data_path, "r") as f:
             loaded_data_idx = json.load(f)
         
         local_datas = []
@@ -74,5 +79,5 @@ class TaskGen(DefaultTaskGen):
 
 if __name__ == '__main__':
     option = read_option()
-    generator = TaskGen(dist_id = option['dist'], skewness = option['skew'], num_clients=option['num_clients'])
+    generator = TaskGen(dist_id = option['dist'], skewness = option['skew'], num_clients=option['num_clients'], option = option)
     generator.run()

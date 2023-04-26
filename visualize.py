@@ -33,4 +33,4 @@ for idx in args.idx:
     noisy_image = torch.clamp(image + noise * args.noise_sds, min=0, max=1)
     pil = toPilImage(noisy_image)
     pil.save("{}/{}_{}.png".format(args.outdir, idx, int(args.noise_sds * 100)))
-    toPilImage(image).save("{}/{}_{}_origin.png".format(args.outdir, idx, int(args.noise_sds * 100)))
+    toPilImage(image).save("{}/{}_{}.png".format(args.outdir, idx, 0))

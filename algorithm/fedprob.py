@@ -80,7 +80,7 @@ class Client(BasicClient):
         return self.accuracy_at_radii(model, data_loader, radii)
 
     def certify_test_radius(self, model: nn.Module, radii: np.ndarray):
-        data_loader = self.calculator.get_data_loader(self.valid_data, batch_size=self.batch_size)
+        data_loader = self.calculator.get_data_loader(self.valid_data, batch_size=self.batch_size,shuffle=False)
         return self.accuracy_at_radii(model, data_loader, radii)
 
 
@@ -115,11 +115,13 @@ class Server(BasicServer):
             logger.time_end('Time Cost')
             if logger.check_if_log(round, self.eval_interval):
                 logger.log(self)
+                
+            if round % self.option['log_interval'] == 0 and round != 0:
                 if "certified_information" not in logger.output.keys():
                     logger.output['certified_information'] = {}
                 output = self.log_certify()
                 logger.output['certified_information'][f"round_{round}"] = output
-            if round % self.option['log_interval'] == 0:
+
                 if not os.path.exists(f"fedtask/{self.option['task']}/record/{self.option['session_name']}"):
                     os.makedirs(f"fedtask/{self.option['task']}/record/{self.option['session_name']}")
                 logger.save(os.path.join('fedtask', self.option['task'], 'record', flw.output_filename(self.option, self)))
@@ -145,7 +147,7 @@ class Server(BasicServer):
         return output
 
     def certify(self):
-        data_loader = self.calculator.get_data_loader(self.test_data, batch_size=self.batch_size)
+        data_loader = self.calculator.get_data_loader(self.test_data, batch_size=self.batch_size,shuffle=False)
         certify_model = Smooth(self.model, self.num_classes, self.sigma, self.N0, self.N, self.alpha, device=self.calculator.device)
         certify_results = []
         idx = 0

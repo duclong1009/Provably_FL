@@ -13,3 +13,4 @@ test*
 env
 **/data
 wandb/
+**.jpg

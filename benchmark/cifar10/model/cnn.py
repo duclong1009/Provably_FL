@@ -21,10 +21,12 @@ class Model(FModule):
         )
 
     def forward(self, x):
-        x = self.encoder(x)
-        x = x.flatten(1)
-        return self.decoder(x)
-
+        try:
+            x = self.encoder(x)
+            x = x.flatten(1)
+            return self.decoder(x)
+        except:
+            breakpoint()
 class Loss(nn.Module):
     def __init__(self):
         super(Loss, self).__init__()

@@ -38,7 +38,7 @@ class BasicClient():
         # the probability of dropout obey distribution beta(drop, 1). The larger 'drop' is, the more possible for a device to drop
         self.drop_rate = 0 if option['net_drop']<0.01 else np.random.beta(option['net_drop'], 1, 1).item()
         self.active_rate = 1 if option['net_active']>99998 else np.random.beta(option['net_active'], 1, 1).item()
-
+        self.option = option
     def train(self, model: nn.Module):
         """
         Standard local training procedure. Train the transmitted model with local training dataset.

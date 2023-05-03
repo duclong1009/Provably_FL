@@ -3,13 +3,15 @@ import numpy as np
 import torch
 import os
 import multiprocessing
-
+import copy
 class MyLogger(flw.Logger):
     def log(self, server=None):
         if server==None: return
         if self.output == {}:
+            saved_output = copy.deepcopy(server.option)
+            saved_output['device'] = 'cuda'
             self.output = {
-                "meta":server.option,
+                "meta":saved_output,
                 "mean_curve":[],
                 "var_curve":[],
                 "train_losses":[],
